@@ -7,6 +7,8 @@ import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 
 
 @NoArgsConstructor
@@ -16,7 +18,9 @@ import javax.persistence.Entity;
 @Document(collection = "products")
 public class Product {
 
+    @NotEmpty
     private  String id;
+    @Min(0)
     private  String name;
     private  int price;
 
