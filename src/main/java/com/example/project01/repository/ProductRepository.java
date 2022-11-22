@@ -27,7 +27,7 @@ public interface ProductRepository extends MongoRepository<Product,String> {
     List<Product>findByNameLikeIgnoreCase(String name);
 
     @Query("{'$and': [{'price': {'$gte': ?0, '$lte': ?1}}, {'name': {'$regex': ?2, '$options': 'i'}}]}")
-     List<Product> findByPriceBetweenAndNameLikeIgnoreCase(int priceFrom ,int priceTo, String name);
+     List<Product> findByPriceBetweenAndNameLikeIgnoreCase(int priceFrom , int priceTo, String name, Sort sort);
 
     @Query(value = "{'_id': {'$in': ?0}}", count = true)
      int countByIdIn(List<String> ids);
