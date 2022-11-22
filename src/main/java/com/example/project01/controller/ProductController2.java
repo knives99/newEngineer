@@ -4,6 +4,7 @@ package com.example.project01.controller;
 import com.example.project01.entity.Product;
 import com.example.project01.entity.ProductQueryParameter;
 import com.example.project01.entity.ProductRequest;
+import com.example.project01.entity.ProductResponse;
 import com.example.project01.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,8 +40,8 @@ public class ProductController2 {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable("id") String id){
-        Product product = productService.getProduct(id);
+    public ResponseEntity<ProductResponse> getProduct(@PathVariable("id") String id){
+        ProductResponse product = productService.getProductResponse(id);
         return ResponseEntity.ok(product);
     }
 

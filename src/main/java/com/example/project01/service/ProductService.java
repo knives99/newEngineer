@@ -5,6 +5,7 @@ import com.example.project01.dao.MockProductDAO;
 import com.example.project01.entity.Product;
 import com.example.project01.entity.ProductQueryParameter;
 import com.example.project01.entity.ProductRequest;
+import com.example.project01.entity.ProductResponse;
 import com.example.project01.exception.NotFoundException;
 import com.example.project01.exception.UnprocessableEntityException;
 import com.example.project01.repository.ProductRepository;
@@ -27,7 +28,7 @@ public class ProductService {
     ProductRepository repository;
 
 
-    public Product createProduct(ProductRequest request){
+    public ProductResponse createProduct(ProductRequest request){
 //        boolean isDuplicate = productDAO.find(request.getId()).isPresent();
 //        if (isDuplicate) {
 //            throw  new UnprocessableEntityException("\"The id of the product is duplicated.\"");
@@ -38,7 +39,9 @@ public class ProductService {
 //        product.setPrice(request.getPrice());
 
         Product product  = ProductConverter.toProduct(request);
-        return repository.insert(product);
+        repository.insert(product);
+
+        return ProductConverter.toProductResponse(product);
     }
 
     public  Product getProduct(String id){
@@ -77,4 +80,8 @@ public class ProductService {
     }
 
 
+    public ProductResponse getProductResponse(String id) {
+        Product product = repository.findById(id).orElseThrow(()-> new NotFoundException("cant find product"));
+        return ProductConverter.toProductResponse(product);
+    }
 }
