@@ -8,6 +8,9 @@ import com.example.project01.entity.ProductResponse;
 import com.example.project01.exception.NotFoundException;
 import com.example.project01.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +19,15 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
+@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class ProductService {
 
 
     private ProductRepository repository;
+    private  MailService mailService;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository,MailService mailService) {
+        this.mailService = mailService;
         this.repository = productRepository;
     }
 
@@ -43,6 +48,7 @@ public class ProductService {
         product.setPrice(request.getPrice());
         product = repository.insert(product);
 
+        mailService.sendNewProductMail(product.getId());
         return ProductConverter.toProductResponse(product);
     }
 
